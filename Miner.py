@@ -1,6 +1,6 @@
 class Miner():
-    self.blockchain = []
-    self.controller = None
+    blockchain = []
+    controller = None
 
     def __init__(self, controller, chain):
         """
@@ -24,8 +24,9 @@ class Miner():
     
     def handle_new_block(self, block):
         """
-        Takes in a new block from a miner and alerts all other miners
-        :param block: the newly mined block being broadcast
+        Some other miner on the network has discovered a new block.
+        Stop mining on the current one, build a new block, and start noncing.
+        :param block: the newly mined block being received
         """
         
         pass

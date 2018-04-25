@@ -2,7 +2,7 @@ import thread
 import Queue
 
 class Controller():
-    self.transactions = Set()
+    transactions = set()
 
     def __init__(self):
         """
