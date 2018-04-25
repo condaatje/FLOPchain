@@ -2,17 +2,37 @@ import thread
 import Queue
 
 class Controller():
-    transactions = set()
+                            # transactions pending in the network. 
+    transactions = set()    # This simulates the gossip protocol we would 
+                            # rather not implement.
 
-    def __init__(self):
+    users = []
+    miners = []
+    
+    difficulty = None
+    
+
+    def __init__(self, num_users, num_miners, difficulty):
         """
         Initialization of controller for the FLOPchain network
         Simulates the role of nodes in a Blockchain system. Should preserve all
         decentralization logic, just makes simulation simpler.
+        :param num_users: TODO
+        :param num_miners: TODO
+        :param difficulty: TODO
         """
+    
+        self.difficulty = difficulty
 
+        for _ in range(1, num_users):
+            self.users.append(User(self))
+        
+        for _ in range(1, num_miners):
+            self.miners.append(Miner(self))
+        
+        
         # thread 'em out
-        #thread.start_new_thread(f, (arg1, arg2))
+        # thread.start_new_thread(f, (arg1, arg2))
 
 
     def handle_new_transaction(self, transaction):
@@ -21,7 +41,7 @@ class Controller():
         un-mined transaction queue
         :param transaction: the transaction being broadcast
         """
-        self.transaction_queue.append(transaction)
+        self.transactions += transaction
     
     
     def handle_new_block(self, block):
@@ -31,8 +51,12 @@ class Controller():
         :param block: the newly mined block being broadcast
         """
         
-    
-        # if block is ok and all that
+        # 1. Distribute new block to other miners.
+        
+        # 2. If they accept it, remove transactions from pending transaction queue
+        #    (simulates what would happen in decentralized network)
         self.transactions = self.transactions - block.transactions
         
-        # TODO byzantine stuff
+        # 3. All miners start mining new block
+        
+        

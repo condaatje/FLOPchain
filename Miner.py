@@ -18,8 +18,7 @@ class Miner():
         Publish a successfully mined block to the network
         :param block: the discovered block to publish
         """
-        
-        pass
+        self.controller.handle_new_block(block)
         
     
     def handle_new_block(self, block):
@@ -29,6 +28,19 @@ class Miner():
         :param block: the newly mined block being received
         """
         
+        # 1. Check if the block is valid
+            # can check entire chain, but probably sufficient to just check
+            # using the latest block. TODO this doesn't handle deviating chains...
+        
+        # If new block is valid:
+            # A. Stop mining
+            # B. Append new block to local blockchain
+            # C. Start mining on new chain (download new transactions)
+            # D. return true
+        
+        # If block is not valid:
+            # return false
+        
         pass
     
     
@@ -36,6 +48,11 @@ class Miner():
         """
         Main mining loop $$$
         """
+        
+        # 1. build a new block
+            # 2.
+        
+        
         
         pass
     

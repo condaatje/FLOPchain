@@ -1,3 +1,6 @@
+from random import random
+import hashlib
+
 class Transaction():
     """
     
@@ -29,14 +32,16 @@ class Transaction():
         self.sender = sender
         self.recipient = recipient
         self.amount = amount
-        self.salt = hash(1) # makes transactions unique
+        self.salt = random() # makes transactions unique
     
     
     def h(self):
         """
         Return a deterministic hash of the transaction
         """
-        return hash(str(self.sender)+str(self.recipient)+str(self.amount)+str(self.salt))
+        m = hashlib.sha256()
+        hstr = str(self.sender) + str(self.recipient) + str(self.amount) + str(self.salt)
+        return hashlib.sha256(hstr).hexdigest()
     
     
     # Note: miners verify transactions. No verify() method in here.

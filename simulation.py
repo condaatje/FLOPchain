@@ -10,13 +10,10 @@ num_miners = 5
 users = []
 miners = []
 
-control = Controller()
+control = Controller(num_users, num_miners)
 
-for _ in (range 1, num_users):
-    users.append(User(control))
-
-for _ in range(1, num_miners):
-    miners.append(Miner(control))
+# users = Controller.users
+# miners = Controller.miners
 
 
 # TODO run the network
