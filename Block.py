@@ -16,7 +16,7 @@ class Block():
         :param prev_block_hash: TODO
         """
         self.transactions = transactions
-        self.tstring = prev_block_hash
+        self.tstring = str(prev_block_hash)
         
         for t in transactions:
             self.tstring += str(t.h())

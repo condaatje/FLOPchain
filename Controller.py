@@ -1,5 +1,9 @@
 import thread
 import Queue
+from User import User
+from Miner import Miner
+from Transaction import Transaction
+from Block import Block
 
 class Controller():
                             # transactions pending in the network. 
@@ -22,13 +26,17 @@ class Controller():
         :param difficulty: TODO
         """
     
-        self.difficulty = difficulty
+        self.difficulty = int(difficulty)
 
-        for _ in range(1, num_users):
-            self.users.append(User(self))
+        for _ in range(0, num_users):
+            # self.users.append(User(self, 0)) TODO wait for user class to be ready
+            pass
         
-        for _ in range(1, num_miners):
-            self.miners.append(Miner(self))
+        t = Transaction("TODOondaatje", "TODOjason", "0") # sender, recipient, amount
+        genesis = Block([t], "") # takes in a list of transactions, and a hash of the previous block
+        
+        for _ in range(0, num_miners):
+            self.miners.append(Miner(self, [genesis]))
         
         
         # thread 'em out

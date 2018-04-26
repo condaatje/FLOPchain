@@ -7,12 +7,13 @@ class User():
     key_pair = None
     address = None
     
-    def __init__(self, starting):
+    def __init__(self, controller, starting):
         """
         Initialize a user. Generate public/private key.
         """
+        self.parent = controller
         self.balance = starting
-        self.key_pair = generate_key_pair()
+        self.key_pair = self.generate_key_pair()
         self.address = hashlib.sha256(self.key_pair[0].encode('utf-8')).hexdigest()
     
     def create_transaction(self, recipient, amount):
@@ -32,7 +33,7 @@ class User():
         """
         parent.handle_new_transaction(transaction)
     
-    def generate_key_pair():
+    def generate_key_pair(self):
         """
         Helper method to generate public/private key pair
         :return Pair of keys (public and private)

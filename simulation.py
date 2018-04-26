@@ -10,7 +10,9 @@ num_miners = 5
 users = []
 miners = []
 
-control = Controller(num_users, num_miners)
+difficulty = 100000 # TODO how hard?
+
+control = Controller(num_users, num_miners, difficulty)
 
 # users = Controller.users
 # miners = Controller.miners
