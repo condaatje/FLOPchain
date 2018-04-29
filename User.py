@@ -1,13 +1,13 @@
 from Crypto.PublicKey import RSA
 import hashlib
+import crypto
 from Controller import Controller
 from Transaction import Transaction
 
 class User():
     balance = 0
     parent = None
-    key = None
-    key_pair = None
+    encrypt_key = None
     address = None
 
     def __init__(self, controller, starting):
@@ -16,9 +16,8 @@ class User():
         """
         self.parent = controller
         self.balance = starting
-        self.key = self.generate_key()
-        self.key_pair = (self.key.publickey().exportKey("PEM"), self.key.exportKey("PEM"))
-        self.address = hashlib.sha256(self.key_pair[0].encode('utf-8')).hexdigest()
+        self.encrypt_key = crypto.generate_key()
+        self.address = crypto.sha256hash(crypto.extract_public_key(self.encrypt_key))
 
     def create_transaction(self, previous_transaction, recipient, amount):
         """
@@ -29,9 +28,9 @@ class User():
         """
         transaction = Transaction(self.address, recipient, amount)
         # Transaction signature based on previous transaction and recipient's public key
-        sign_string = previous_transaction.h() + recipient.key_pair[0]
-        hash = hashlib.sha256(sign_string.encode('utf-8')).hexdigest()
-        signature = self.key.sign(hash, '')
+        sign_string = previous_transaction.h() + crypto.extract_public_key(recipient.encrypt_key)
+        hash = crypto.sha256hash(sign_string)
+        signature = self.encrypt_key.sign(hash, '')
         transaction.sign(signature)
         # Broadcast transaction after being created
         self.broadcast(transaction)
@@ -48,13 +47,4 @@ class User():
         Getter method for returning public key of a user
         :return the public key for this particular user
         """
-        return key_pair[0]
-
-    def generate_key(self):
-        """
-        Helper method to generate public/private key pair
-        :return Pair of keys (public and private)
-        """
-        # Generate the RSA key pair
-        k = RSA.generate(2048)
-        return k
+        return crypto.extract_public_key(self.encrypt_key)
