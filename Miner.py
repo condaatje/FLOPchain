@@ -32,23 +32,14 @@ class Miner():
         :param block: the newly mined block being received
         """
         
-        # 1. Check if the block is valid
-            # can check entire chain, but probably sufficient to just check
-            # using the latest block. TODO this doesn't handle deviating chains...
-        
-        # If block is not valid:
-            # return false
-        
         # If new block is valid:
             # A. Stop mining
             # B. Append new block to local blockchain
             # C. Start mining on new chain (download new transactions)
-            # D. return true
-        
-        # TODO logic for checking block validity (maybe not essential?)
+
         self.blockchain.append(block)
         self.interrupt = True # not really threadsafe but should work for us
-    
+        # mine loop going on in the background will listen to self.interrupt        
     
     def mine(self):
         """
@@ -66,10 +57,18 @@ class Miner():
                 new_block = Block(transactions, prev_hash)
                 self.interrupt = False
             else:
-                nonce = randint(1, 10000000) # TODO arbitrary
-                hashstr = new_block.h(nonce)
-                
-                if int(hashstr, 16) <= self.controller.difficulty:
-                    print("I mined a block!!$!")
-                    self.interrupt = True
-                    self.publish_block(new_block)
+                if randint != None:
+                    nonce = randint(1, 1 * 10 ** 11) # TODO arbitrary?
+                    
+                    if nonce != None: # again, strange multithreading suff
+                        hashstr = new_block.h(nonce)
+                            
+                        if int(str(hashstr), 16) <= self.controller.difficulty and hashstr != -1:
+                            self.interrupt = True
+                            self.publish_block(new_block)
+                    else:
+                        pass
+                        
+                else:
+                    pass
+                    # raise Exception("ERROR NO RANDINT!")
