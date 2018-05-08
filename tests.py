@@ -27,8 +27,8 @@ print("TODO TEST USERS")
 # Test new transaction
 # Test new block
 print("Testing Controller...")
-difficulty = 5.0 * 10 ** 72 # bigger = easier
-c = Controller(0, 5, difficulty) # multithreaded mining simulation is a bit wonkly
+difficulty = 3.0 * 10 ** 71 # bigger = easier
+c = Controller(1, 5, difficulty) # multithreaded mining simulation is a bit wonkly
 # u = c.users[0]
 m = c.miners[0]
 

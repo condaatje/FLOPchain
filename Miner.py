@@ -1,19 +1,23 @@
 from random import randint
 from Block import Block
+from Transaction import Transaction
 
 class Miner():
     blockchain = None
     controller = None
     interrupt = False
+    benefactor = None
 
-    def __init__(self, controller, chain):
+    def __init__(self, controller, chain, benefactor):
         """
         Initializes a miner on the Flopchain network. 
         :param controller: the simulation controller
         :param chain: the blockchain the miner starts with
+        :param benefactor: the miner's User model
         """
         self.controller = controller
         self.blockchain = chain
+        self.benefactor = benefactor
     
     
     def publish_block(self, block):
@@ -46,13 +50,15 @@ class Miner():
         Main mining loop $$$
         never returns, should be threaded.
         """
-        transactions = self.controller.transactions.copy()
+        
+        coinbase = Transaction(None, self.benefactor, "10") # miner reward
+        transactions = [coinbase] + list(self.controller.transactions.copy())
         prev_hash = self.blockchain[-1].h(self.blockchain[-1].nonce)
         new_block = Block(transactions, prev_hash)
         
         while True:
             if self.interrupt:
-                transactions = self.controller.transactions.copy()
+                transactions = [coinbase] + list(self.controller.transactions.copy())
                 prev_hash = self.blockchain[-1].h(self.blockchain[-1].nonce)
                 new_block = Block(transactions, prev_hash)
                 self.interrupt = False

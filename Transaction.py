@@ -21,18 +21,22 @@ class Transaction():
     data = None
     salt = None
 
-        # TODO actual cryptography? lol
-        # right now anyone could say they are the sender and move coins
-        # from any account. need to sign the message with sender's private key
+  
     def __init__(self, sender, recipient, data):
         """
         :param sender: the address of the sender
         :param recipient: the address of the recipient
-        :param amount: the amount of FLOP to be transferred
+        :param data: the amount of FLOP to be transferred
         """
+        
+        self.data = data  
+        # by custom, if the transaction data is just
+        # a number it is a transfer of FLOP
+        # but by making transactions contain data instead of numbers only,
+        # the protocol can be softly modified
+        
         self.sender = sender
         self.recipient = recipient
-        self.data = data
         self.salt = random() # makes transactions unique
 
     def h(self):

@@ -14,7 +14,7 @@ class Controller():
 
     users = []
     miners = []
-
+    reward = "10"
     difficulty = None
     blockchain = []
 
@@ -40,8 +40,9 @@ class Controller():
         
         self.blockchain.append(genesis)
         
-        for _ in range(0, num_miners):
-            m = Miner(self, [genesis])
+        for i in range(0, num_miners):
+            u = self.users[i % len(self.users)]
+            m = Miner(self, [genesis], u)
             self.miners.append(m)
             thread.start_new_thread(m.mine, ())
 
@@ -67,15 +68,24 @@ class Controller():
         last_block = self.blockchain[-1]
         expected_block = Block(block.transactions, last_block.h(last_block.nonce), block.nonce)
         
-        if expected_block.h() != block.h() or int(block.h(), 16) > self.difficulty:
-            print("bad block rejected by network")
+        if (expected_block.h() != block.h() 
+            or int(block.h(), 16) > self.difficulty 
+            or block.transactions[0].data != self.reward):
+            
+            # this is also where we would go through every transaction and
+            # verify that the user was able to spend it, but better to leave it
+            # out for this simulation...
+            
+            print "Bad block rejected by network!"
             print "Expected hashstr: ", expected_block.h()
             print "Actual hashstr: ", block.h()
+            print "Expected coinbase reward: ", self.reward
+            print "Actual coinbase reward: ", block.transactions[0].data
         else:
             print "Block", block.h(block.nonce), "accepted"
             self.blockchain.append(block)
             # 1. Distribute new block to other miners.
-            self.transactions = self.transactions - block.transactions
+            self.transactions = self.transactions - set(block.transactions)
             for miner in self.miners:
                 miner.handle_new_block(block)
 
