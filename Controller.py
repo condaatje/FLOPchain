@@ -4,6 +4,7 @@ import User
 from Miner import Miner
 from Transaction import Transaction
 from Block import Block
+from Computation import Computation
 
 
     # TODO controller is a bit like a stand-in for the gossip protocol
@@ -17,7 +18,7 @@ class Controller():
     reward = "10"
     difficulty = None
     blockchain = []
-
+    
     def __init__(self, num_users, num_miners, difficulty):
         """
         Initialization of controller for the FLOPchain network
@@ -66,11 +67,12 @@ class Controller():
         # simulate the network accepting/denying the new block
         # in real life it would be individual miners checking against the whole chain
         last_block = self.blockchain[-1]
-        expected_block = Block(block.transactions, last_block.h(last_block.nonce), block.nonce)
+        expected_block = Block(block.transactions, last_block.h(last_block.nonce), block.nonce, block.computation)
         
         if (expected_block.h() != block.h() 
             or int(block.h(), 16) > self.difficulty 
-            or block.transactions[0].data != self.reward):
+            or block.transactions[0].data != self.reward
+            or block.computation.result != block.computation.function()):
             
             # this is also where we would go through every transaction and
             # verify that the user was able to spend it, but better to leave it
@@ -81,6 +83,10 @@ class Controller():
             print "Actual hashstr: ", block.h()
             print "Expected coinbase reward: ", self.reward
             print "Actual coinbase reward: ", block.transactions[0].data
+            print "Expected computation result: ", block.computation.execute()
+            print "Actual computation result: ", block.computation.result
+            # later/in the paper we can think about methods to verify decentralized
+            # or incentives for correctness
         else:
             print "Block", block.h(block.nonce), "accepted"
             self.blockchain.append(block)

@@ -1,6 +1,7 @@
 from random import randint
 from Block import Block
 from Transaction import Transaction
+from Computation import Computation, twoplustwo
 
 class Miner():
     blockchain = None
@@ -54,27 +55,23 @@ class Miner():
         coinbase = Transaction(None, self.benefactor, "10") # miner reward
         transactions = [coinbase] + list(self.controller.transactions.copy())
         prev_hash = self.blockchain[-1].h(self.blockchain[-1].nonce)
-        new_block = Block(transactions, prev_hash)
+        c = Computation(None, twoplustwo)
+        c.compute()
+        new_block = Block(transactions, prev_hash, computation=c)
         
         while True:
             if self.interrupt:
                 transactions = [coinbase] + list(self.controller.transactions.copy())
                 prev_hash = self.blockchain[-1].h(self.blockchain[-1].nonce)
-                new_block = Block(transactions, prev_hash)
+                new_block = Block(transactions, prev_hash, computation=c)
                 self.interrupt = False
             else:
-                if randint != None:
-                    nonce = randint(1, 1 * 10 ** 11) # TODO arbitrary?
+                nonce = randint(1, 1 * 10 ** 11) # TODO arbitrary?
+                
+                hashstr = new_block.h(nonce)
                     
-                    if nonce != None: # again, strange multithreading suff
-                        hashstr = new_block.h(nonce)
-                            
-                        if int(str(hashstr), 16) <= self.controller.difficulty and hashstr != -1:
-                            self.interrupt = True
-                            self.publish_block(new_block)
-                    else:
-                        pass
-                        
-                else:
-                    pass
-                    # raise Exception("ERROR NO RANDINT!")
+                if (int(str(hashstr), 16) <= self.controller.difficulty 
+                    and hashstr != -1):
+                    
+                    self.interrupt = True
+                    self.publish_block(new_block)

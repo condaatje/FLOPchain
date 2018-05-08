@@ -8,8 +8,9 @@ class Block():
     nonce = None
     transactions = []
     tstring = None
+    computation = None
     
-    def __init__(self, transactions, prev_block_hash, nonce=None):
+    def __init__(self, transactions, prev_block_hash, nonce=None, computation=None):
         """
         TODO
         :param transactions: TODO
@@ -18,6 +19,7 @@ class Block():
         self.transactions = transactions
         self.tstring = str(prev_block_hash)
         self.nonce = nonce
+        self.computation = computation
         
         for t in transactions:
             self.tstring += str(t.h())
@@ -32,7 +34,7 @@ class Block():
             self.nonce = new_nonce
         
         if sha256 != None: 
-            return sha256(self.tstring + str(self.nonce)).hexdigest()
+            return sha256(self.tstring + str(self.computation) + str(self.nonce)).hexdigest()
         else: # not sure why this is happening w/ multithreading
             return -1
             # raise Exception("ERROR NO SHA!")

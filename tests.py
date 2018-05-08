@@ -14,6 +14,7 @@ assert(t.h() == 'd074ebe1920ad0e6646b322ddafbd0a109f89e2415cb676373191c6b28d72fd
 
 print("Testing Blocks...")
 b = Block([t], '262')
+b.computation = ""
 assert(b.h('262') == '761f90d0e044abaf0198f5c17f15b60c527b4a453784b5797d2ee84c6b456d19')
 
 
@@ -39,14 +40,6 @@ print "Blockchain after ~10 seconds:"
 for block in c.blockchain:
     print "-> ", block.h()
 
-
-print("TODO TEST MINER")
-# thread this guy out and give him like 5 sec
-# Miner
-# test verify block
-    # positive
-    # negative
-# test mine block
 
 
 
