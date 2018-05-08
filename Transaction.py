@@ -18,13 +18,13 @@ class Transaction():
 
     sender = None
     recipient = None
-    amount = None
+    data = None
     salt = None
 
         # TODO actual cryptography? lol
         # right now anyone could say they are the sender and move coins
         # from any account. need to sign the message with sender's private key
-    def __init__(self, sender, recipient, amount):
+    def __init__(self, sender, recipient, data):
         """
         :param sender: the address of the sender
         :param recipient: the address of the recipient
@@ -32,7 +32,7 @@ class Transaction():
         """
         self.sender = sender
         self.recipient = recipient
-        self.amount = amount
+        self.data = data
         self.salt = random() # makes transactions unique
 
     def h(self):
@@ -40,7 +40,7 @@ class Transaction():
         Return a deterministic hash of the transaction
         """
         m = hashlib.sha256()
-        hstr = str(self.sender) + str(self.recipient) + str(self.amount) + str(self.salt)
+        hstr = str(self.sender) + str(self.recipient) + str(self.data) + str(self.salt)
         return hashlib.sha256(hstr).hexdigest()
 
     def sign(self, signature):

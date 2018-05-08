@@ -31,8 +31,7 @@ class Controller():
         self.difficulty = int(difficulty)
 
         for _ in range(0, num_users):
-            # self.users.append(User(self, 0)) TODO wait for user class to be ready
-            pass
+            self.users.append(User.User(self))
 
         t = Transaction("TODOondaatje", "TODOjason", "0") # sender, recipient, amount
         t.salt = '262'
@@ -52,7 +51,7 @@ class Controller():
         un-mined transaction queue
         :param transaction: the transaction being broadcast
         """
-        self.transactions += transaction
+        self.transactions.add(transaction)
         print(transaction)
 
 

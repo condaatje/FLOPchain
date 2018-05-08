@@ -28,17 +28,19 @@ print("TODO TEST USERS")
 # Test new block
 print("Testing Controller...")
 difficulty = 5.0 * 10 ** 72 # bigger = easier
-c = Controller(1, 5, difficulty) # multithreaded mining simulation is a bit wonkly
+c = Controller(0, 5, difficulty) # multithreaded mining simulation is a bit wonkly
 # u = c.users[0]
 m = c.miners[0]
 
 
-sleep(20)
+sleep(10)
+print 
+print "Blockchain after ~10 seconds:"
 for block in c.blockchain:
     print "-> ", block.h()
 
 
-print("Testing Miner...")
+print("TODO TEST MINER")
 # thread this guy out and give him like 5 sec
 # Miner
 # test verify block
