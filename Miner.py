@@ -1,7 +1,7 @@
-from random import randint
+import random
 from Block import Block
 from Transaction import Transaction
-from Computation import Computation, twoplustwo
+from Computation import Computation
 
 class Miner():
     blockchain = None
@@ -55,18 +55,22 @@ class Miner():
         coinbase = Transaction(None, self.benefactor, "10") # miner reward
         transactions = [coinbase] + list(self.controller.transactions.copy())
         prev_hash = self.blockchain[-1].h(self.blockchain[-1].nonce)
-        c = Computation(None, twoplustwo)
+        # just random for now. and slow af lol
+        c = random.sample(self.controller.computations, 1)[0]
         c.compute()
+        
         new_block = Block(transactions, prev_hash, computation=c)
         
         while True:
             if self.interrupt:
                 transactions = [coinbase] + list(self.controller.transactions.copy())
                 prev_hash = self.blockchain[-1].h(self.blockchain[-1].nonce)
+                c = random.sample(self.controller.computations, 1)[0]
+                c.compute() # would obviously be memoized
                 new_block = Block(transactions, prev_hash, computation=c)
                 self.interrupt = False
             else:
-                nonce = randint(1, 1 * 10 ** 11) # TODO arbitrary?
+                nonce = random.randint(1, 1 * 10 ** 11) # TODO arbitrary?
                 
                 hashstr = new_block.h(nonce)
                     

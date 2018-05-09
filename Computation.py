@@ -13,7 +13,7 @@ class Computation():
     def __init__(self, sender, function):
         """
         :param sender: the address of the sender
-        :param function: TODO
+        :param function: the compute job to be executed
         """
         
         self.sender = sender
@@ -21,7 +21,3 @@ class Computation():
 
     def compute(self):
         self.result = self.function()
-
-def twoplustwo():
-    sleep(5)
-    return 2 + 2

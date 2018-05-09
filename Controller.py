@@ -4,6 +4,7 @@ import User
 from Miner import Miner
 from Transaction import Transaction
 from Block import Block
+from time import sleep
 from Computation import Computation
 
 
@@ -13,6 +14,10 @@ class Controller():
     transactions = set()    # This simulates the gossip protocol we would
                             # rather not implement.
 
+                            # compute jobs issued to the network
+    computations = set()    # many of the minor functionality details
+                            # are disserviced by this simplification, but it works
+                            
     users = []
     miners = []
     reward = "10"
@@ -28,16 +33,25 @@ class Controller():
         :param num_miners: TODO
         :param difficulty: TODO
         """
+        
+        def nullFunc():
+                sleep(1)
+                return 2**100
 
+        nullJob = Computation("Null", nullFunc)
+        
         self.difficulty = int(difficulty)
-
+        self.computations.add(nullJob)
+        
         for _ in range(0, num_users):
             self.users.append(User.User(self))
 
         t = Transaction("TODOondaatje", "TODOjason", "0") # sender, recipient, amount
         t.salt = '262'
-        genesis = Block([t], "") # takes in a list of transactions, and a hash of the previous block
+        genesis = Block([t], "", computation=Computation("", None)) # takes in a list of transactions, and a hash of the previous block
         genesis.nonce = 832717007
+        genesis.computation.sender = "" # not messing up the hash
+        genesis.computation.result = ""
         
         self.blockchain.append(genesis)
         
@@ -55,7 +69,12 @@ class Controller():
         """
         self.transactions.add(transaction)
         print(transaction)
-
+    
+    def handle_new_computation(self, computation):
+        """
+        :param computation: the computation for the network to solve
+        """
+        self.computations.add(computation)
 
     def handle_new_block(self, block):
         """
@@ -69,8 +88,8 @@ class Controller():
         last_block = self.blockchain[-1]
         expected_block = Block(block.transactions, last_block.h(last_block.nonce), block.nonce, block.computation)
         
-        if (expected_block.h() != block.h() 
-            or int(block.h(), 16) > self.difficulty 
+        if (expected_block.h(block.nonce) != block.h(block.nonce) 
+            or int(block.h(block.nonce), 16) > self.difficulty 
             or block.transactions[0].data != self.reward
             or block.computation.result != block.computation.function()):
             
@@ -83,15 +102,19 @@ class Controller():
             print "Actual hashstr: ", block.h()
             print "Expected coinbase reward: ", self.reward
             print "Actual coinbase reward: ", block.transactions[0].data
-            print "Expected computation result: ", block.computation.execute()
+            print "Expected computation result: ", block.computation.function()
             print "Actual computation result: ", block.computation.result
             # later/in the paper we can think about methods to verify decentralized
             # or incentives for correctness
+            
         else:
             print "Block", block.h(block.nonce), "accepted"
             self.blockchain.append(block)
-            # 1. Distribute new block to other miners.
             self.transactions = self.transactions - set(block.transactions)
+            
+            # computation completion would be way more in-depth irl
+            # self.computations = self.computations - set([block.computation])
+            
             for miner in self.miners:
                 miner.handle_new_block(block)
 

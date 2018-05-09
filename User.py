@@ -3,6 +3,7 @@ import hashlib
 import crypto
 import Controller
 from Transaction import Transaction
+from Computation import Computation
 
 class User():
     parent = None
@@ -46,3 +47,13 @@ class User():
         :return the public key for this particular user
         """
         return crypto.extract_public_key(self.encrypt_key)
+
+    def broadcast_computation(self, function):
+        """
+        :parameter function: the computation to be uploaded for the 
+        network to solve
+        """
+        c = Computation(self.address, function)
+        self.parent.handle_new_computation(c)
+        
+        

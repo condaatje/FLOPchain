@@ -34,7 +34,10 @@ class Block():
             self.nonce = new_nonce
         
         if sha256 != None: 
-            return sha256(self.tstring + str(self.computation) + str(self.nonce)).hexdigest()
+            return sha256(self.tstring 
+                        + str(self.computation.sender) # doesn't hash the func 
+                        + str(self.computation.result) # itself, which it should
+                        + str(self.nonce)).hexdigest()
         else: # not sure why this is happening w/ multithreading
             return -1
             # raise Exception("ERROR NO SHA!")
