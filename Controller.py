@@ -8,7 +8,6 @@ from time import sleep
 from Computation import Computation
 
 
-    # TODO controller is a bit like a stand-in for the gossip protocol
 class Controller():
                             # transactions pending in the network.
     transactions = set()    # This simulates the gossip protocol we would
@@ -34,27 +33,29 @@ class Controller():
         :param difficulty: TODO
         """
         
+        # A default function that miners can use to fill the requirement        
         def nullFunc():
                 sleep(1)
                 return 2**100
-
+        
         nullJob = Computation("Null", nullFunc)
-        
-        self.difficulty = int(difficulty)
         self.computations.add(nullJob)
+        self.difficulty = int(difficulty)
         
+        # initialize users
         for _ in range(0, num_users):
             self.users.append(User.User(self))
-
-        t = Transaction("TODOondaatje", "TODOjason", "0") # sender, recipient, amount
+            
+        # set up the genesis block
+        t = Transaction("TODOondaatje", "TODOjason", "0")
         t.salt = '262'
-        genesis = Block([t], "", computation=Computation("", None)) # takes in a list of transactions, and a hash of the previous block
+        genesis = Block([t], "", computation=Computation("", None))
         genesis.nonce = 832717007
         genesis.computation.sender = "" # not messing up the hash
         genesis.computation.result = ""
-        
         self.blockchain.append(genesis)
         
+        # initialize miners
         for i in range(0, num_miners):
             u = self.users[i % len(self.users)]
             m = Miner(self, [genesis], u)
@@ -63,8 +64,8 @@ class Controller():
 
     def handle_new_transaction(self, transaction):
         """
-        takes in a new transaction from a user and adds it to the
-        un-mined transaction queue
+        Takes in a new transaction from a user and adds it to the un-mined 
+        transaction queue
         :param transaction: the transaction being broadcast
         """
         self.transactions.add(transaction)
@@ -72,26 +73,32 @@ class Controller():
     
     def handle_new_computation(self, computation):
         """
+        Takes in some compute job and puts it in the network simulation.
         :param computation: the computation for the network to solve
         """
         self.computations.add(computation)
 
     def handle_new_block(self, block):
         """
-        takes in a new block from a miner and alerts all other miners.
+        Takes in a new block from a miner and alerts all other miners.
         Also removes the transactions processed from the transaction queue
-        :param block: the newly mined block being broadcast
+        and verifies whether the block is valid.
+        :param block: the newly mined block being broadcast/verified
         """
 
-        # simulate the network accepting/denying the new block
-        # in real life it would be individual miners checking against the whole chain
+        # simulate the network accepting/denying the new block. In real
+        # life it would be individual miners checking against the whole chain.
         last_block = self.blockchain[-1]
-        expected_block = Block(block.transactions, last_block.h(last_block.nonce), block.nonce, block.computation)
+        expected_block = Block(block.transactions,
+                               last_block.h(last_block.nonce),
+                               block.nonce,
+                               block.computation)
         
-        if (expected_block.h(block.nonce) != block.h(block.nonce) 
-            or int(block.h(block.nonce), 16) > self.difficulty 
-            or block.transactions[0].data != self.reward
-            or block.computation.result != block.computation.function()):
+            # is the block valid?
+        if (expected_block.h(block.nonce)    != block.h(block.nonce) 
+            or int(block.h(block.nonce), 16)  > self.difficulty 
+            or block.transactions[0].data    != self.reward
+            or block.computation.result      != block.computation.function()):
             
             # this is also where we would go through every transaction and
             # verify that the user was able to spend it, but better to leave it
@@ -104,17 +111,18 @@ class Controller():
             print "Actual coinbase reward: ", block.transactions[0].data
             print "Expected computation result: ", block.computation.function()
             print "Actual computation result: ", block.computation.result
-            # later/in the paper we can think about methods to verify decentralized
-            # or incentives for correctness
+            # See discussion for some possible correctness incentives
             
-        else:
+        else: # the block passed verification! 
             print "Block", block.h(block.nonce), "accepted"
             self.blockchain.append(block)
             self.transactions = self.transactions - set(block.transactions)
             
-            # computation completion would be way more in-depth irl
             # self.computations = self.computations - set([block.computation])
+            # computation completion would be way more in-depth irl. 
+            # See discussion.
             
             for miner in self.miners:
+                # simulate network propogation. Note: this does not get into the 
+                # nuances of "longest chain" mining.
                 miner.handle_new_block(block)
-

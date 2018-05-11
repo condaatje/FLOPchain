@@ -11,7 +11,7 @@ class Miner():
 
     def __init__(self, controller, chain, benefactor):
         """
-        Initializes a miner on the Flopchain network. 
+        Initializes a miner on the FLOPchain network. 
         :param controller: the simulation controller
         :param chain: the blockchain the miner starts with
         :param benefactor: the miner's User model
@@ -43,27 +43,31 @@ class Miner():
             # C. Start mining on new chain (download new transactions)
 
         self.blockchain.append(block)
-        self.interrupt = True # not really threadsafe but should work for us
-        # mine loop going on in the background will listen to self.interrupt        
+        self.interrupt = True # not really threadsafe but should work for us, 
+        # with the mining loop running in the background listening to interrupt
     
     def mine(self):
         """
-        Main mining loop $$$
-        never returns, should be threaded.
+        The miner's main mining loop, where all the hashing takes place.
+        This should run in a background thread.
         """
         
+        # build the new block
         coinbase = Transaction(None, self.benefactor, "10") # miner reward
         transactions = [coinbase] + list(self.controller.transactions.copy())
         prev_hash = self.blockchain[-1].h(self.blockchain[-1].nonce)
-        # just random for now. and slow af lol
+        
+        # Note - just performing a random compute job, but the real system 
+        # would obviously look at economic incentives and expected difficulty
         c = random.sample(self.controller.computations, 1)[0]
         c.compute()
         
         new_block = Block(transactions, prev_hash, computation=c)
         
         while True:
-            if self.interrupt:
-                transactions = [coinbase] + list(self.controller.transactions.copy())
+            if self.interrupt: # handle an interrupt - mine on the updated chain
+                ts = self.controller.transactions.copy()
+                transactions = [coinbase] + list(ts)
                 prev_hash = self.blockchain[-1].h(self.blockchain[-1].nonce)
                 c = random.sample(self.controller.computations, 1)[0]
                 c.compute() # would obviously be memoized
