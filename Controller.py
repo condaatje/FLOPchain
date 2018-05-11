@@ -28,9 +28,9 @@ class Controller():
         Initialization of controller for the FLOPchain network
         Simulates the role of nodes in a Blockchain system. Should preserve all
         decentralization logic, just makes simulation simpler.
-        :param num_users: TODO
-        :param num_miners: TODO
-        :param difficulty: TODO
+        :param num_users: Number of users in the network
+        :param num_miners: Number of miners in the network
+        :param difficulty: Mining difficulty
         """
         
         # A default function that miners can use to fill the requirement        
@@ -47,12 +47,9 @@ class Controller():
             self.users.append(User.User(self))
             
         # set up the genesis block
-        t = Transaction("TODOondaatje", "TODOjason", "0")
+        t = Transaction("Ondaatje", "Jason", "0")
         t.salt = '262'
         genesis = Block([t], "", computation=Computation("", None))
-        genesis.nonce = 832717007
-        genesis.computation.sender = "" # not messing up the hash
-        genesis.computation.result = ""
         self.blockchain.append(genesis)
         
         # initialize miners
@@ -69,7 +66,7 @@ class Controller():
         :param transaction: the transaction being broadcast
         """
         self.transactions.add(transaction)
-        print(transaction)
+        print "Transaction ", transaction.h(), "broadcast to the network"
     
     def handle_new_computation(self, computation):
         """
@@ -93,28 +90,42 @@ class Controller():
                                last_block.h(last_block.nonce),
                                block.nonce,
                                block.computation)
-        
+            
+                                         # in it's current incarnation, 
+        r = block.computation.function() # FLOPchain acts similarly to Ethereum,
+                                         # where every miner computes and 
+                                         # verifies every function
+            
             # is the block valid?
         if (expected_block.h(block.nonce)    != block.h(block.nonce) 
             or int(block.h(block.nonce), 16)  > self.difficulty 
             or block.transactions[0].data    != self.reward
-            or block.computation.result      != block.computation.function()):
+            or block.computation.result      != r):
             
             # this is also where we would go through every transaction and
             # verify that the user was able to spend it, but better to leave it
             # out for this simulation...
             
+            
+            
+            print
             print "Bad block rejected by network!"
             print "Expected hashstr: ", expected_block.h()
             print "Actual hashstr: ", block.h()
             print "Expected coinbase reward: ", self.reward
             print "Actual coinbase reward: ", block.transactions[0].data
-            print "Expected computation result: ", block.computation.function()
+            print "Expected computation result: ", r
             print "Actual computation result: ", block.computation.result
+            print
+            
             # See discussion for some possible correctness incentives
             
         else: # the block passed verification! 
+            
+            print
             print "Block", block.h(block.nonce), "accepted"
+            print 
+            
             self.blockchain.append(block)
             self.transactions = self.transactions - set(block.transactions)
             

@@ -1,10 +1,6 @@
 from hashlib import sha256
 
 class Block():
-    """
-    TODO
-    """
-    
     nonce = None
     transactions = []
     tstring = None
@@ -12,9 +8,10 @@ class Block():
     
     def __init__(self, transactions, prev_block_hash, nonce=None, computation=None):
         """
-        TODO
-        :param transactions: TODO
-        :param prev_block_hash: TODO
+        A block on the FLOPchain network. The basic unit in the blockchain.
+        :param transactions: The transactions to be included in the block
+        :param prev_block_hash: The previous block to be linked (via hashing) 
+            to this one.
         """
         self.transactions = transactions
         self.tstring = str(prev_block_hash)
@@ -27,8 +24,8 @@ class Block():
     
     def h(self, new_nonce=None):
         """
-        TODO
-        :param nonce: TODO
+        Calculate a block's hash with a given nonce
+        :param nonce: the nonce to be hashed in
         """
         if new_nonce != None:
             self.nonce = new_nonce
