@@ -1,0 +1,89 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module Controller</title>
+<meta charset="utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>Controller</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/macbook/dev/FLOPchain/src/Controller.py">/Users/macbook/dev/FLOPchain/src/Controller.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="Queue.html">Queue</a><br>
+</td><td width="25%" valign=top><a href="User.html">User</a><br>
+</td><td width="25%" valign=top><a href="thread.html">thread</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="Controller.html#Controller">Controller</a>
+</font></dt></dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Controller">class <strong>Controller</strong></a></font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Controller-__init__"><strong>__init__</strong></a>(self, num_users, num_miners, difficulty)</dt><dd><tt>Initialization&nbsp;of&nbsp;controller&nbsp;for&nbsp;the&nbsp;FLOPchain&nbsp;network<br>
+Simulates&nbsp;the&nbsp;role&nbsp;of&nbsp;nodes&nbsp;in&nbsp;a&nbsp;Blockchain&nbsp;system.&nbsp;Should&nbsp;preserve&nbsp;all<br>
+decentralization&nbsp;logic,&nbsp;just&nbsp;makes&nbsp;simulation&nbsp;simpler.<br>
+:param&nbsp;num_users:&nbsp;Number&nbsp;of&nbsp;users&nbsp;in&nbsp;the&nbsp;network<br>
+:param&nbsp;num_miners:&nbsp;Number&nbsp;of&nbsp;miners&nbsp;in&nbsp;the&nbsp;network<br>
+:param&nbsp;difficulty:&nbsp;Mining&nbsp;difficulty</tt></dd></dl>
+
+<dl><dt><a name="Controller-handle_new_block"><strong>handle_new_block</strong></a>(self, block)</dt><dd><tt>Takes&nbsp;in&nbsp;a&nbsp;new&nbsp;block&nbsp;from&nbsp;a&nbsp;miner&nbsp;and&nbsp;alerts&nbsp;all&nbsp;other&nbsp;miners.<br>
+Also&nbsp;removes&nbsp;the&nbsp;transactions&nbsp;processed&nbsp;from&nbsp;the&nbsp;transaction&nbsp;queue<br>
+and&nbsp;verifies&nbsp;whether&nbsp;the&nbsp;block&nbsp;is&nbsp;valid.<br>
+:param&nbsp;block:&nbsp;the&nbsp;newly&nbsp;mined&nbsp;block&nbsp;being&nbsp;broadcast/verified</tt></dd></dl>
+
+<dl><dt><a name="Controller-handle_new_computation"><strong>handle_new_computation</strong></a>(self, computation)</dt><dd><tt>Takes&nbsp;in&nbsp;some&nbsp;compute&nbsp;job&nbsp;and&nbsp;puts&nbsp;it&nbsp;in&nbsp;the&nbsp;network&nbsp;simulation.<br>
+:param&nbsp;computation:&nbsp;the&nbsp;computation&nbsp;for&nbsp;the&nbsp;network&nbsp;to&nbsp;solve</tt></dd></dl>
+
+<dl><dt><a name="Controller-handle_new_transaction"><strong>handle_new_transaction</strong></a>(self, transaction)</dt><dd><tt>Takes&nbsp;in&nbsp;a&nbsp;new&nbsp;transaction&nbsp;from&nbsp;a&nbsp;user&nbsp;and&nbsp;adds&nbsp;it&nbsp;to&nbsp;the&nbsp;un-mined&nbsp;<br>
+transaction&nbsp;queue<br>
+:param&nbsp;transaction:&nbsp;the&nbsp;transaction&nbsp;being&nbsp;broadcast</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>blockchain</strong> = []</dl>
+
+<dl><dt><strong>computations</strong> = set([])</dl>
+
+<dl><dt><strong>difficulty</strong> = None</dl>
+
+<dl><dt><strong>miners</strong> = []</dl>
+
+<dl><dt><strong>reward</strong> = '10'</dl>
+
+<dl><dt><strong>transactions</strong> = set([])</dl>
+
+<dl><dt><strong>users</strong> = []</dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-sleep"><strong>sleep</strong></a>(...)</dt><dd><tt><a href="#-sleep">sleep</a>(seconds)<br>
+&nbsp;<br>
+Delay&nbsp;execution&nbsp;for&nbsp;a&nbsp;given&nbsp;number&nbsp;of&nbsp;seconds.&nbsp;&nbsp;The&nbsp;argument&nbsp;may&nbsp;be<br>
+a&nbsp;floating&nbsp;point&nbsp;number&nbsp;for&nbsp;subsecond&nbsp;precision.</tt></dd></dl>
+</td></tr></table>
+</body></html>

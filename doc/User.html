@@ -1,0 +1,68 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module User</title>
+<meta charset="utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>User</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/macbook/dev/FLOPchain/src/User.py">/Users/macbook/dev/FLOPchain/src/User.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="Controller.html">Controller</a><br>
+</td><td width="25%" valign=top><a href="Crypto.PublicKey.RSA.html">Crypto.PublicKey.RSA</a><br>
+</td><td width="25%" valign=top><a href="crypto.html">crypto</a><br>
+</td><td width="25%" valign=top><a href="hashlib.html">hashlib</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="User.html#User">User</a>
+</font></dt></dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="User">class <strong>User</strong></a></font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="User-__init__"><strong>__init__</strong></a>(self, controller)</dt><dd><tt>Initialize&nbsp;a&nbsp;user.&nbsp;Generate&nbsp;public/private&nbsp;key.</tt></dd></dl>
+
+<dl><dt><a name="User-broadcast"><strong>broadcast</strong></a>(self, transaction)</dt><dd><tt>Transmits&nbsp;the&nbsp;transaction&nbsp;to&nbsp;the&nbsp;miners&nbsp;for&nbsp;verification&nbsp;to&nbsp;be&nbsp;added&nbsp;to&nbsp;the&nbsp;blockchain<br>
+:param&nbsp;transaction:&nbsp;The&nbsp;transaction&nbsp;being&nbsp;broadcasted&nbsp;to&nbsp;the&nbsp;miners</tt></dd></dl>
+
+<dl><dt><a name="User-broadcast_computation"><strong>broadcast_computation</strong></a>(self, function)</dt><dd><tt>:parameter&nbsp;function:&nbsp;the&nbsp;computation&nbsp;to&nbsp;be&nbsp;uploaded&nbsp;for&nbsp;the&nbsp;<br>
+network&nbsp;to&nbsp;solve</tt></dd></dl>
+
+<dl><dt><a name="User-create_transaction"><strong>create_transaction</strong></a>(self, previous_transaction, recipient, data)</dt><dd><tt>Generate&nbsp;a&nbsp;transaction&nbsp;consisting&nbsp;of&nbsp;coins&nbsp;being&nbsp;sent&nbsp;to&nbsp;another&nbsp;user&nbsp;on&nbsp;the&nbsp;network<br>
+:param&nbsp;previous_transaction:&nbsp;The&nbsp;previous&nbsp;transaction&nbsp;to&nbsp;be&nbsp;hashed&nbsp;for&nbsp;the&nbsp;signature<br>
+:param&nbsp;recipient:&nbsp;The&nbsp;intended&nbsp;user&nbsp;to&nbsp;receive&nbsp;the&nbsp;transaction&nbsp;quantity<br>
+:param&nbsp;amount:&nbsp;The&nbsp;quantity&nbsp;of&nbsp;coins&nbsp;being&nbsp;sent&nbsp;to&nbsp;the&nbsp;recipient&nbsp;from&nbsp;the&nbsp;current&nbsp;user&nbsp;in&nbsp;this&nbsp;transaction</tt></dd></dl>
+
+<dl><dt><a name="User-get_public_key"><strong>get_public_key</strong></a>()</dt><dd><tt>Getter&nbsp;method&nbsp;for&nbsp;returning&nbsp;public&nbsp;key&nbsp;of&nbsp;a&nbsp;user<br>
+:return&nbsp;the&nbsp;public&nbsp;key&nbsp;for&nbsp;this&nbsp;particular&nbsp;user</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>address</strong> = None</dl>
+
+<dl><dt><strong>encrypt_key</strong> = None</dl>
+
+<dl><dt><strong>parent</strong> = None</dl>
+
+</td></tr></table></td></tr></table>
+</body></html>
